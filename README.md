@@ -8,8 +8,7 @@ This script can be used by users who have no experience in programming before. P
 
 Once the script runs, data from AFBostäder's API is downloaded containing information in a JSON file about rent, area, floor and more.
 
-For viewing an example hos the JSON object is storing different parameters, please see [example.json](#example.json).
-hello
+For viewing an example hos the JSON object is storing different parameters, please see [example.json](example.json).
 
 ### How to run it
 
