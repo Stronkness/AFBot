@@ -4,6 +4,7 @@ This is a AFBostäder bot programmed in Python for easy filtering to find the pe
 
 This script can be used by users who have no experience in programming before. Please see the section [How to run it](#how-to-run-it) for further information.
 
+
 ### How it works
 
 Once the script runs, data from AFBostäder's API is downloaded containing information in a JSON file about rent, area, floor and more.
@@ -23,17 +24,49 @@ An Email object is created containing all the information SMTP needs in order to
 
 For viewing an example hos the JSON object is storing different parameters, please see [example.json](example.json).
 
+
 ### How to run it
 
+To be able to run the script you need Python and other dependencies installed.
+
 #### Install software
-python, dotenv
+##### Python
+If you are unsure, open your command line (search for Terminal or CMD) and run this line
+```bash
+python3 --version
+```
+The output should be something similar to this
+```bash
+Python 3.10.6
+```
+If this is not the case then simply follow the guideline below for your respective OS
+
+[Linux](https://docs.python-guide.org/starting/install3/linux/)
+
+[Windows](https://www.digitalocean.com/community/tutorials/install-python-windows-10    )
+
+[MacOS](https://www.dataquest.io/blog/installing-python-on-mac/)
+
+
+##### dotenv
+
+
 
 #### Requirements
-account, .env, 
+To be able to run the script correctly you need to create an environment file and use a gmail account.
 
 ##### .env
 
 ##### Dumpster account
+
+#### Running the script
+
+If you have Python installed and everything setup please go the the directory where you cloned/downloaded the program to. You can do this in the Terminal or in your file manager.
+Smply double-click the script [af-bot.py](af-bot.py) or run the following in the terminal
+```
+python3 af-bot.py
+```
+No output will be printed out if everything is correctly setup and you should have an email in your address you typed in the [.env](#.env) file. If an error occurs, please check that every step above is done and installed.
 
 
 #### Automated execution
