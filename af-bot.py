@@ -7,7 +7,9 @@ from email.message import EmailMessage
 from dotenv import load_dotenv
 load_dotenv()
 
-def downloadAF():
+already_sent_accommodations = []
+
+def download_af():
     """
     Data scraped AFBostäders API for vacant accommodations
 
@@ -17,7 +19,7 @@ def downloadAF():
     page_data = page_data.text
     return page_data
 
-def approvedAccommodationFilter(accommodation_type, rent, sqr_meters, floor, area, rooms):
+def approved_accommodation_filter(accommodation_type, rent, sqr_meters, floor, area, rooms):
     """
     Filters out the apartments which suits the requirements
 
@@ -32,15 +34,18 @@ def approvedAccommodationFilter(accommodation_type, rent, sqr_meters, floor, are
     """
     approved_areas = ["Magasinet", "Studentlyckan", "Ulrikedal", "Vegalyckan"]
     if (
-        accommodation_type == "Lägenhet" and int(rent) <= 9000 and 
-        float(sqr_meters) >= 40.0 and int(floor) != 1 and
-        int(rooms) >= 2 and area in approved_areas
+        accommodation_type == "Lägenhet" and 
+        int(rent) <= 9000 and 
+        float(sqr_meters) >= 40.0 and 
+        int(floor) != 1 and
+        int(rooms) >= 2 and 
+        area in approved_areas
        ): 
          return True
     else: 
          return False
 
-def sendEmail(approved):
+def send_email(approved):
     """
     Sends an email if the requirements for an apartment is met.
     Provides with several apartments in the same email if it occurs more than once.
@@ -62,14 +67,14 @@ def sendEmail(approved):
         content += accommodation + "\n"
     msg.set_content(content)
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp: #port 465? 587?
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.ehlo()
         smtp.login(sender_email_adress, sender_email_password)
         smtp.send_message(msg)
         smtp.quit()
 
 def main():
-    data = downloadAF()
+    data = download_af()
     soup = BeautifulSoup(data, "html.parser")
     json_site = json.loads(soup.text)
     products = json_site["product"]
@@ -82,13 +87,13 @@ def main():
         floor = accommodation["floor"]
         area = accommodation["area"]
         rooms = accommodation["shortDescription"][0]
-        if approvedAccommodationFilter(accommodation_type, rent, sqr_meters, floor, area, rooms):
+        if approved_accommodation_filter(accommodation_type, rent, sqr_meters, floor, area, rooms):
             object_id = accommodation["productId"]
             URL = f"https://www.afbostader.se/lediga-bostader/bostadsdetalj/?obj={object_id}&area={area}&mode=0"
             message = f"{area} {rent}:- {sqr_meters}m^2 \n{URL}\n"
             approved.append(message)
     if approved:
-        sendEmail(approved)
+        send_email(approved)
 
 if __name__ == "__main__":
     main()
