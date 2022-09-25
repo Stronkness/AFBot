@@ -30,7 +30,7 @@ def approvedAccommodationFilter(accommodation_type, rent, sqr_meters, floor, are
 
     @return the condition if the accommodation is approved or not
     """
-    approved_areas = ["Magasinet", "Marathon", "Studentlyckan", "Ulrikedal", "Vegalyckan"]
+    approved_areas = ["Magasinet", "Studentlyckan", "Ulrikedal", "Vegalyckan"]
     if (
         accommodation_type == "Lägenhet" and int(rent) <= 9000 and 
         float(sqr_meters) >= 40.0 and int(floor) != 1 and
@@ -51,12 +51,12 @@ def sendEmail(approved):
     sender_email_password = os.environ.get("EMAIL_PASSWORD")
 
     receiver_email_adress = os.environ.get("RECEIVER_EMAIL_ADDRESS")
-    receiver_email_adress_2 = os.environ.get("RECEIVER_EMAIL_ADDRESS_2")
+    # receiver_email_adress_2 = os.environ.get("RECEIVER_EMAIL_ADDRESS_2")
 
     msg = EmailMessage()
     msg["Subject"] = "New AFBostäder accommodations found!"
     msg["From"] = sender_email_adress
-    msg["To"] = receiver_email_adress + "," + receiver_email_adress_2
+    msg["To"] = receiver_email_adress #+ "," + receiver_email_adress_2
     content = ""
     for accommodation in approved:
         content += accommodation + "\n"
@@ -84,7 +84,7 @@ def main():
         rooms = accommodation["shortDescription"][0]
         if approvedAccommodationFilter(accommodation_type, rent, sqr_meters, floor, area, rooms):
             object_id = accommodation["productId"]
-            URL = "https://www.afbostader.se/lediga-bostader/bostadsdetalj/?obj=" + object_id
+            URL = f"https://www.afbostader.se/lediga-bostader/bostadsdetalj/?obj={object_id}&area={area}&mode=0"
             message = f"{area} {rent}:- {sqr_meters}m^2 \n{URL}\n"
             approved.append(message)
     if approved:
