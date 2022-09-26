@@ -7,6 +7,14 @@ from email.message import EmailMessage
 from dotenv import load_dotenv
 load_dotenv()
 
+# The users requirements for the accommodation
+approved_areas = ["Magasinet", "Studentlyckan", "Ulrikedal", "Vegalyckan"] # The areas to choose from is stated here https://www.afbostader.se/lediga-bostader/bostadsomraden/, just type the name with "" and separate each name with a ,
+highest_rent = 9000 # State the highest rent you can think of, if you have no upper limit then type in a very high number
+accommodation_choice = "Lägenhet" # "Lägenhet" for apartments or "Korridorrum" for corridor rooms
+minimum_sqrMtrs = 40.0 # State the minimal square meters of the accommodation, if size isn't a problm just type in a very low number
+unwanted_floor = 1 # If you have a certain floor you don't want to live in type this in, only works for one floor
+minimum_rooms = 2 # State the minimum amount of rooms that you want in the accommodation, only applciable for "Lägenhet"
+
 already_sent_accommodations = []
 
 def download_af():
@@ -32,18 +40,30 @@ def approved_accommodation_filter(accommodation_type, rent, sqr_meters, floor, a
 
     @return the condition if the accommodation is approved or not
     """
-    approved_areas = ["Magasinet", "Studentlyckan", "Ulrikedal", "Vegalyckan"]
-    if (
-        accommodation_type == "Lägenhet" and 
-        int(rent) <= 9000 and 
-        float(sqr_meters) >= 40.0 and 
-        int(floor) != 1 and
-        int(rooms) >= 2 and 
+    if accommodation_choice == "Korridorrum":
+        if (
+        accommodation_type == accommodation_choice and 
+        int(rent) <= highest_rent and 
+        float(sqr_meters) >= minimum_sqrMtrs and 
+        int(floor) != unwanted_floor and
         area in approved_areas
-       ): 
-         return True
-    else: 
-         return False
+        ): 
+            return True
+        else: 
+            return False
+
+    else:
+        if (
+            accommodation_type == accommodation_choice and 
+            int(rent) <= highest_rent and 
+            float(sqr_meters) >= minimum_sqrMtrs and 
+            int(floor) != unwanted_floor and
+            int(rooms) >= minimum_rooms and 
+            area in approved_areas
+        ): 
+            return True
+        else: 
+            return False
 
 def send_email(approved):
     """

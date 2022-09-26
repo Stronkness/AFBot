@@ -24,6 +24,8 @@ An Email object is created containing all the information SMTP needs in order to
 
 For viewing an example hos the JSON object is storing different parameters, please see [example.json](example.json).
 
+Currently the bot is sending an email if an accommodation have been added which the receiever havn't headr about. In other words you should not get the same accommodation twice in your mail.
+
 
 ### How to run it
 
@@ -66,8 +68,18 @@ pip3 install python-dotenv
 To be able to run the script correctly you need to create an environment file and use a gmail account.
 
 ##### .env
+The ```.env``` file contains information about the dumpster account to be used and the receivers email addresses. Create a ```.env``` file in the same folder as the script and insert the following
+
+```js
+EMAIL_ADDRESS=example@gmail.com
+EMAIL_PASSWORD=apppasswordhere
+RECEIVER_EMAIL_ADDRESS=example1@gmail.com
+```
+
+As the script can use more than one address to send to it is posibble to add more if you like to. Insert your dumpster accounts email address and the App password. Check the next section for more information about this. Don't forget to add your own email address as the receiver
 
 ##### Dumpster account
+I highly recommend to use an dumpster account for the bot, for security reasons. To create a dumpster account simply go to [Create account GMail](https://support.google.com/mail/answer/56256?hl=en). To not expose your password to in the ```.env``` you can assign a App password to your account. Follow this [App password](https://support.google.com/mail/answer/185833?hl=en-GB) guide or this one (with pictures) [App password with pictures](https://devanswers.co/create-application-specific-password-gmail/) and paste it in the ```ÈMAIL_PASSWORD```in the ```.env```file.  It should look like a bunch of letters mixed in a blender like this **vhgksciebfjvlsk**. 
 
 #### Running the script
 
@@ -77,6 +89,23 @@ Smply double-click the script [af-bot.py](af-bot.py) or run the following in the
 python3 af-bot.py
 ```
 No output will be printed out if everything is correctly setup and you should have an email in your address you typed in the [.env](#.env) file. If an error occurs, please check that every step above is done and installed.
+
+
+#### Specify your needs to the script
+
+The current requirements stated in the script is for my own need. If you don't want these configurations then I have added some explanation at the top of the [af-bot.py](af-bot.py) what the parameters do and how they can look like. 
+
+```python
+# The users requirements for the accommodation
+approved_areas = ["Magasinet", "Studentlyckan", "Ulrikedal", "Vegalyckan"] # The areas to choose from is stated here https://www.afbostader.se/lediga-bostader/bostadsomraden/, just type the name with "" and separate each name with a ,
+highest_rent = 9000 # State the highest rent you can think of, if you have no upper limit then type in a very high number
+accommodation_choice = "Lägenhet" # "Lägenhet" for apartments or "Korridorrum" for corridor rooms
+minimum_sqrMtrs = 40.0 # State the minimal square meters of the accommodation, if size isn't a problm just type in a very low number
+unwanted_floor = 1 # If you have a certain floor you don't want to live in type this in, only works for one floor
+minimum_rooms = 2 # State the minimum amount of rooms that you want in the accommodation, only applicable for "Lägenhet"
+```
+
+This is the parameters that MUST be filled in order for the bot to work. If you know what you are doing then you can erase or even add requirements in the ***approved_accommodation_filter***. If you don't know anything about coding then use the parameters above or try to mimic what I've done in the python file.
 
 
 #### Automated execution
