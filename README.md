@@ -8,7 +8,7 @@ This script can be used by users who have no experience in programming before. P
 ### How it works
 
 Once the script runs, data from AFBostäder's API is downloaded containing information in a JSON file about rent, area, floor and more.
-Every JSON object (accommodation) contains parameters for filtering, these can be decided yourself to suit your requirements. These parameters are then sent to a function which checks if your requirements are met, if they are the function will approve this accommodation and include it in an email. 
+Every JSON object (accommodation) contains parameters for filtering, these can be decided yourself to suit your requirements. These parameters are then sent to a function which checks if your requirements are met, if they are the function will approve this accommodation and include it in an email.
 
 This email is using GMail's SMTP Protocol with a dumpster account to send emails to the recipients. Every approved accommodation will be inserted in a list with a string containing the area, rent and square meters with the URL to the accommodation. When every accommodation have been checked on the website the list of approved accommodations will be sent to an function which prepares an email. Here we export an gmail account with its corresponing App password which is stored in a ```.env``` file where also the recipients email addresses are stored in. You can send to several addresses with this function. Keep in mind that the ```.env``` file must be created in order to function and to not expose sensitive credentials directly in the code. How to create a ```.env``` file is explained in ```.env```. 
 
@@ -24,7 +24,7 @@ An Email object is created containing all the information SMTP needs in order to
 
 For viewing an example hos the JSON object is storing different parameters, please see [example.json](example.json).
 
-Currently the bot is sending an email if an accommodation have been added which the receiever havn't headr about. In other words you should not get the same accommodation twice in your mail.
+Currently the bot is sending an email if an accommodation have been added which the receiever hav'nt heard about. In other words you should not get the same accommodation twice in your mail.
 
 
 ### How to run it
@@ -70,7 +70,7 @@ To be able to run the script correctly you need to create an environment file an
 ##### .env
 The ```.env``` file contains information about the dumpster account to be used and the receivers email addresses. Create a ```.env``` file in the same folder as the script and insert the following
 
-```js
+```c#
 EMAIL_ADDRESS=example@gmail.com
 EMAIL_PASSWORD=apppasswordhere
 RECEIVER_EMAIL_ADDRESS=example1@gmail.com
