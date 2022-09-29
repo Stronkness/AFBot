@@ -34,7 +34,7 @@ def prepare_already_sent():
     Reads a text file to prepare the accommodations which have been sent already.
     Creates a new text file if it does not exist
     """
-    file = open("sent_accommodations.txt", "w+")
+    file = open("sent_accommodations.txt", "r+")
     sent_accomodations = file.readlines()
     for element in sent_accomodations:
         already_sent_accommodations.append(element[:len(element)-1])
