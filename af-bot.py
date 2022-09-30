@@ -20,6 +20,34 @@ minimum_rooms = 2 # State the minimum amount of rooms that you want in the accom
 already_sent_accommodations = []
 newly_approved = []
 
+def logger(sending):
+    """
+    Creates a logger file which will be used for logging events based on the output of sending the mail.
+    If logger file is created already then no new file wil be created.
+    Is stored in the repository directory.
+    Is created as a .txt file for easier user-experience on Windows and MacOS. Doesn't matter for Linus.
+    """
+    file = open("logger.txt", "a")
+
+    if sending:
+        logger_info = ""
+        for accommodation in newly_approved:
+            logger_info += accommodation + "\n"
+    else:
+        logger_info = f"No new accommodations. E-mail not sent"
+
+    now = datetime.now()
+    current_time_day = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    flavor_text_start = f"[LOG EVENT] {current_time_day}"
+    in_between = "\n{ \n"
+    flavor_text_end = "\n} \n\n"
+    new_log = flavor_text_start + in_between + logger_info + flavor_text_end
+
+    file.write(new_log)
+    file.close()
+
+
 def write_accommodations_to_file():
     """
     Writes every approved accommodation to the file for future checks
@@ -28,6 +56,7 @@ def write_accommodations_to_file():
     for element in newly_approved:
         file.write(element + "\n")
     file.close()
+
 
 def prepare_already_sent():
     """
@@ -40,6 +69,7 @@ def prepare_already_sent():
         already_sent_accommodations.append(element[:len(element)-1])
     file.close()
 
+
 def check_post_expiration_date():
     """
     Filters out the accommodations which is not on the website anymore
@@ -50,6 +80,7 @@ def check_post_expiration_date():
         if present_time.date() > expire_date.date():
             already_sent_accommodations.remove(element)
 
+
 def download_af():
     """
     Data scraped AFBostäders API for vacant accommodations
@@ -59,6 +90,7 @@ def download_af():
     page_data = requests.get("https://api.afbostader.se:442/redimo/rest/vacantproducts")
     page_data = page_data.text
     return page_data
+
 
 def approved_accommodation_filter(accommodation_type, rent, sqr_meters, floor, area, rooms):
     """
@@ -75,11 +107,11 @@ def approved_accommodation_filter(accommodation_type, rent, sqr_meters, floor, a
     """
     if accommodation_choice == "Korridorrum":
         if (
-        accommodation_type == accommodation_choice and 
-        int(rent) <= highest_rent and 
-        float(sqr_meters) >= minimum_sqrMtrs and 
-        int(floor) != unwanted_floor and
-        area in approved_areas
+            accommodation_type == accommodation_choice and 
+            int(rent) <= highest_rent and 
+            float(sqr_meters) >= minimum_sqrMtrs and 
+            int(floor) != unwanted_floor and
+            area in approved_areas
         ): 
             return True
         else: 
@@ -97,6 +129,7 @@ def approved_accommodation_filter(accommodation_type, rent, sqr_meters, floor, a
             return True
         else: 
             return False
+
 
 def send_email(approved):
     """
@@ -118,12 +151,13 @@ def send_email(approved):
     for accommodation in approved:
         content += accommodation + "\n"
     msg.set_content(content)
-
+    
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
         smtp.ehlo()
         smtp.login(sender_email_adress, sender_email_password)
         smtp.send_message(msg)
         smtp.quit()
+
 
 def main():
     data = download_af()
@@ -151,6 +185,7 @@ def main():
     if approved:
         write_accommodations_to_file()
         send_email(approved)
+    logger(True) if newly_approved else logger(False)
 
 if __name__ == "__main__":
     prepare_already_sent()
