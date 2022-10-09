@@ -30,6 +30,7 @@ Currently the bot is sending an email if an accommodation have been added which 
 ### How to run it
 
 To be able to run the script you need Python and other dependencies installed.
+If you get stuck or are very unsure what to do and need hints, check in the section [Still unsure how do preparations?](#still-unsure-how-do-preparations)
 
 #### Install software
 ##### Python
@@ -41,7 +42,7 @@ The output should be something similar to this
 ```bash
 Python 3.10.6
 ```
-If this is not the case then simply follow the guideline below for your respective OS
+If this is not the case then simply follow the guideline below for your respective OS.
 
 [Linux](https://docs.python-guide.org/starting/install3/linux/)
 
@@ -105,7 +106,7 @@ unwanted_floor = 1 # If you have a certain floor you don't want to live in type 
 minimum_rooms = 2 # State the minimum amount of rooms that you want in the accommodation, only applicable for "Lägenhet"
 ```
 
-This is the parameters that MUST be filled in order for the bot to work. If you know what you are doing then you can erase or even add requirements in the ***approved_accommodation_filter***. If you don't know anything about coding then use the parameters above or try to mimic what I've done in the python file.
+This is the parameters that MUST be filled in order for the bot to work. If you know what you are doing then you can erase or even add requirements in the ***approved_accommodation_filter*** function. If you don't know anything about coding then use the parameters above or try to mimic what I've done in the python file.
 
 
 #### Automated execution
@@ -120,3 +121,13 @@ The easiest way of these two are Cron-jobs. Please see the guide for your respec
 [MacOS](https://anvilproject.org/guides/content/creating-links)
 
 For more information about Cron-jobs, please see the following link [Cron Job: A Comprehensive Guide for Beginners](https://www.hostinger.com/tutorials/cron-job)
+
+
+### Still unsure how do preparations?
+
+If you still feel clueless about how to prepare everything for the script then here are some hints that might help you.
+
+- You don't actually have to look if Python is installed if you feel unsure about terminal use. You can just try to install it directly through the link (or follow the guide). If it is already installed it will tell you that or simply update the version to a newer one.
+- For creating the ```.env``` file simply go the the catalog where you have this project and create a File without any type. This can be done in the terminal and in Notepad for Windows. Go into Notepad and add the parameters explained above in the [.env](#.env) section. Save the file and when naming the file typ in ".env" with the quotation marks, that will create a file with no extensions. For MacOS there should be a similar version to this like Notepad.
+- If pip doesn't work try this guide [Geek-for-Geeks](https://www.geeksforgeeks.org/how-to-install-python-libraries-without-using-the-pip-command/) with the following [PyPI](https://pypi.org/project/python-dotenv/) link. Currently, it is difficult to install pip without terminal usage.
+- For running the python script it is neccessary to do it in the terminal. Currently, it is quite difficult to make the script run when double-clicking the file as in the good old days. Remember that you can still apply [Cron-jobs](#automated-execution) to make it autonomous. But first make sure that the script works with your dumpster account and parameters.
