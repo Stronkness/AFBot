@@ -4,7 +4,7 @@ This is a AFBostäder bot programmed in Python for easy filtering to find the pe
 
 This script can be used by users who have no experience in programming before. Please see the section [How to run it](#how-to-run-it) for further information.
 
-For swedish translation, please see [Svensk förklaring](translation/README.swe.md)
+For translations, please see the translations folder in this repository.
 
 ### How it works
 
